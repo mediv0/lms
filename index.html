@@ -1,0 +1,327 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="app">
+            <div class="login">
+                <div class="login__content">
+                    <div class="login__content__logo">
+                        <img class="fit-parent" src="./assets/images/logo.png" alt="logo" />
+                    </div>
+                    <span class="login__content__logo__text">سیستم آموزش مجازی</span>
+                    <div class="login__content__details">
+                        <p>به سیستم آموزش مجازی خوش آمدید. برای ورود لطفا نوع کاربری خود را انتخاب کنید</p>
+                    </div>
+                    <div style="position: relative">
+                        <!-- component place -->
+
+                        <div class="login__content__buttons">
+                            <button class="login__content__buttons__button" id="login1">
+                                <div class="login__content__buttons__button__image">
+                                    <img src="./assets/images/admin.svg" class="fit-parent" />
+                                </div>
+                                <div class="login__content__buttons__button__content">
+                                    <p>ورود به سامانه آموزش آنلاین</p>
+                                    <span>سامانه آموزش آنلاین</span>
+                                </div>
+                            </button>
+                            <button class="login__content__buttons__button" id="login2">
+                                <div class="login__content__buttons__button__image">
+                                    <img src="./assets/images/teacher.svg" class="fit-parent" />
+                                </div>
+                                <div class="login__content__buttons__button__content">
+                                    <p>ورود به سامانه ملاقات آنلاین</p>
+                                    <span>سامانه ملاقات آنلاین</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <div class="form" style="display: none">
+                            <input type="text" placeholder="نام کاربری خود را وارد کنید" />
+                            <input type="password" placeholder="رمز عبور خود را وارد کنید" />
+                            <button class="form__btn">ورود به سیستم</button>
+                            <button class="form__btn_text">بازگشت</button>
+                        </div>
+
+                        <!--   -->
+                    </div>
+                </div>
+                <div class="login__space">
+                    <div class="login__space__title">
+                        <h1>دانش ، میراثی گرانبها و آداب ، زیورهای همیشه تازه و اندیشه ، آیینه ای شفاف است.</h1>
+                        <p>امام علی (ع)</p>
+                    </div>
+                    <div class="login__space__image">
+                        <img src="./assets/images/illustration.svg" class="fit-parent" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="module">
+            // handle login click
+
+            const form = document.querySelector(".form");
+            const login = document.querySelector(".login__content__buttons");
+            const btn1 = document.getElementById("login1");
+            const btn2 = document.getElementById("login2");
+
+            const nextStage = (val) => {
+                login.style.display = "none";
+                form.style.display = "flex";
+
+                const backBtn = document.querySelector(".form__btn_text");
+
+                document.querySelector(".form__btn").addEventListener("click", () => {
+                    const a = document.createElement("a");
+                    a.href = val;
+                    a.click();
+                })
+
+                backBtn.addEventListener("click", () => {
+                    login.style.display = "block";
+                    form.style.display = "none";
+                });
+            };
+
+            btn1.addEventListener("click", nextStage.bind(null, '/lms.html'));
+            btn2.addEventListener("click", nextStage.bind(null, '/meet.html'));
+
+
+        </script>
+    </body>
+</html>
+
+<style>
+    @font-face {
+        font-family: "Shabnam";
+        src: url("./assets/fonts/Shabnam.woff") format("woff"), url("./assets/fonts/Shabnam.woff2") format("woff2");
+    }
+    :root {
+        --base-font-size: 14px;
+        --font-family: "Shabnam", sans-serif;
+        --color-blue: #434ae5;
+        --color-blue-hover: #3840db;
+        --color-gray-1: #f3f5f9;
+        --color-gray-2: #eeedf0;
+        --color-btn-hover: #f5f8ff;
+    }
+    html,
+    body {
+        font-size: var(--base-font-size);
+        box-sizing: border-box;
+        overflow-x: hidden;
+        -ms-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        padding: 0;
+        margin: 0;
+    }
+    body {
+        font-family: var(--font-family);
+        font-weight: 400;
+        height: 100vh;
+    }
+    *,
+    *::after,
+    *::before {
+        padding: 0;
+        margin: 0;
+        box-sizing: inherit;
+    }
+    li {
+        list-style: none;
+    }
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+    button {
+        font-family: inherit;
+        cursor: pointer;
+        border: none;
+        outline: none;
+    }
+    input {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+    }
+    /* Firefox */
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+    [debug],
+    [debug] > * {
+        border: 1px solid red;
+    }
+    .fit-parent {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .content_wrapper {
+        direction: rtl;
+        margin: 0 auto;
+        width: 870px;
+    }
+    .offline {
+        border: 2px solid red;
+    }
+    .online {
+        border: 2px solid var(--color-green);
+        transform: scale(1);
+        animation: pulse-black 2s infinite;
+    }
+    @keyframes pulse-black {
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 var(--color-green);
+        }
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+        }
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+    }
+    /* width */
+    ::-webkit-scrollbar {
+        width: 3px;
+    }
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 10px;
+    }
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-blue);
+        border-radius: 10px;
+    }
+
+    .login {
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+        direction: rtl;
+    }
+    .login__content {
+        flex: 0 0 600px;
+        background-color: white;
+        padding: 120px;
+    }
+    .login__content__logo {
+        width: 43px;
+        height: 58px;
+    }
+    .login__content__logo__text {
+        color: var(--color-blue);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 20px;
+    }
+    .login__space {
+        flex: 1;
+        background-color: var(--color-gray-1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .login__space__title {
+        width: 60%;
+        margin-top: 100px;
+    }
+    .login__space__title > h1 {
+        word-spacing: -3px;
+        margin-bottom: 7px;
+    }
+    .login__content__buttons {
+        position: absolute;
+        width: 100%;
+        margin-top: 50px;
+    }
+    .login__content__buttons__button {
+        width: 100%;
+        border: 2px solid var(--color-gray-2);
+        background-color: white;
+        outline: none;
+        display: flex;
+        align-items: center;
+        transition: 0.1s ease;
+        border-radius: 12px;
+        padding: 15px;
+    }
+    .login__content__buttons__button:not(:last-child) {
+        margin-bottom: 10px;
+    }
+    .login__content__buttons__button:hover {
+        border-color: var(--color-blue);
+        background-color: var(--color-btn-hover);
+    }
+    .login__content__buttons__button__content {
+        margin-right: 10px;
+        text-align: right;
+    }
+    .login__content__buttons__button__content > p {
+        font-weight: bold;
+        margin-bottom: 3px;
+    }
+    .login__content__buttons__button__content > span {
+        color: gray;
+    }
+    .login__content__buttons__button__image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .form {
+        position: absolute;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 60px;
+    }
+    .form > input {
+        outline: none;
+        border: 2px solid var(--color-gray-2);
+        transition: 0.1s ease;
+        font-weight: bold;
+        font-size: 16;
+    }
+    .form > input:hover,
+    .form > input:focus {
+        border-color: var(--color-blue);
+        background-color: var(--color-btn-hover);
+    }
+    .form > input:not(:last-child) {
+        margin-bottom: 10px;
+    }
+    .form__btn,
+    .form input {
+        padding: 18px 20px 16px 20px;
+        border-radius: 12px;
+    }
+    .form__btn {
+        margin-top: 20px;
+        background-color: var(--color-blue);
+        color: white;
+    }
+    .form__btn:hover {
+        background-color: var(--color-blue-hover);
+    }
+    .form__btn_text {
+        margin-top: 15px;
+        padding: 10px;
+        outline: none;
+        background-color: transparent;
+        color: var(--color-blue);
+    }
+</style>

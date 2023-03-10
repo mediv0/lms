@@ -1,0 +1,488 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>سیستم آموزش مجازی آنلاین</title>
+        <link rel="stylesheet" href="./styles/styles.css" />
+        <link rel="stylesheet" href="./styles/lms.css" />
+        <link rel="stylesheet" href="./styles/chat.css" />
+        <link rel="stylesheet" href="./styles/canvas.css" />
+    </head>
+    <body>
+        <div class="lms">
+            <div class="lms__navbar">
+                <!-- chatroom component -->
+
+                <div class="chatroom">
+                    <div class="chatroom__title">
+                        <div class="chatroom__title__icon">
+                            <img src="./assets/images/chat.svg" class="fit-parent" />
+                        </div>
+                        <h1>چت روم</h1>
+                        <p onclick="closeChatroom()" style="cursor: pointer; color: blue">بستن چت</p>
+                    </div>
+
+                    <ul class="chatroom__list"></ul>
+
+                    <div class="chatroom__input">
+                        <div>
+                            <div class="chatroom__input__icon" onclick="postChat()">
+                                <img src="./assets/images/send.svg" class="fit-parent" />
+                            </div>
+                        </div>
+                        <input class="chatroom__input__val" type="text" placeholder="متن پیام را وارد کنید" />
+                    </div>
+                </div>
+
+                <!-- -->
+
+                <div class="lms__navbar__title">
+                    <p class="lms__navbar__title__text">کلاس آموزش مجازی برنامه نویسی</p>
+                    <p class="lms__navbar__title__label">40 نفر آنلاین</p>
+                </div>
+                <div class="lms__navbar__users">
+                    <div class="lms__navbar__users__user">
+                        <video muted autoplay id="webcam"></video>
+                        <div class="lms__navbar__users__user__nowebcam">
+                            <img src="./assets/images/controller/video_off.svg" alt="mute icon" class="fit-parent" />
+                        </div>
+                        <div class="lms__navbar__users__user__nomic">
+                            <img src="./assets/images/controller/microphone_mute.svg" alt="mute icon" class="fit-parent" />
+                        </div>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon color-green">M</div>
+                        <p class="lms__navbar__users__user__name">مهدی فخر</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon color-blue">A</div>
+                        <p class="lms__navbar__users__user__name">رضا یزدانی</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon color-oranged">G</div>
+                        <p class="lms__navbar__users__user__name">حسین زمانی</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon color-peru">D</div>
+                        <p class="lms__navbar__users__user__name">محمد مهدی حسینی</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon color-pink">C</div>
+                        <p class="lms__navbar__users__user__name">محمد رضا احمدی</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon color-red">F</div>
+                        <p class="lms__navbar__users__user__name">مهدی معماری</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon color-green">D</div>
+                        <p class="lms__navbar__users__user__name">امیرحسین مرادی</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon color-blue">M</div>
+                        <p class="lms__navbar__users__user__name">طاعا نامدار</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon color-peru">O</div>
+                        <p class="lms__navbar__users__user__name">آرتا محمدی</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon">P</div>
+                        <p class="lms__navbar__users__user__name">آروین احمدی</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon">L</div>
+                        <p class="lms__navbar__users__user__name">امیرعلی رستمی</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon">J</div>
+                        <p class="lms__navbar__users__user__name">امیرطاها فخر</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon">R</div>
+                        <p class="lms__navbar__users__user__name">بردیا زمانی</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon">T</div>
+                        <p class="lms__navbar__users__user__name">حسین مرادی</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon">Y</div>
+                        <p class="lms__navbar__users__user__name">ابوالفضل جعفری</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                    <div class="lms__navbar__users__user">
+                        <div class="lms__navbar__users__user__icon">U</div>
+                        <p class="lms__navbar__users__user__name">مهدی همتی</p>
+                        <p class="lms__navbar__users__user__status">آنلاین</p>
+                    </div>
+                </div>
+                <div class="lms__navbar__buttons">
+                    <!--                           
+
+                        
+                    -->
+                    <div class="video__controlls">
+                        <div class="video__controlls__controll" title="اشتراک گذاری صفحه" onclick="shareScreen()">
+                            <img src="./assets/images/controller/record.svg" class="fit-parent svg-default-color" />
+                        </div>
+                        <div class="video__controlls__controll video__controlls__controll__microphone" title="بستن میکروفون">
+                            <img src="./assets/images/controller/microphone.svg" class="fit-parent svg-default-color" />
+                        </div>
+                        <div class="video__controlls__controll" title="خروج">
+                            <a href="/"><img src="./assets/images/controller/close_circle.svg" class="fit-parent" /> </a>
+                        </div>
+                        <div class="video__controlls__controll video__controlls__controll__webcam" title="بستن تصویر">
+                            <img src="./assets/images/controller/video.svg" class="fit-parent svg-default-color" />
+                        </div>
+                        <div class="video__controlls__controll" title="چت روم" onclick="openChatroom()">
+                            <img src="./assets/images/controller/chat_audio.svg" class="fit-parent svg-default-color" />
+                        </div>
+                    </div>
+
+                    <!--                           
+
+                        
+                    -->
+                </div>
+            </div>
+            <div class="lms__content">
+                <!-- can be either share screen or canvas -> default is canvas -->
+
+                <!-- canvas           -->
+
+                <div class="canvas">
+                    <div class="canvas__menu">
+                        <div class="canvas__menu__icon" onclick="setThickness()">
+                            <img class="fit-parent" src="./assets/images/canvas/marker1.svg" alt="icon" />
+                        </div>
+                        <div class="canvas__menu__icon" onclick="setThickness(3)">
+                            <img class="fit-parent" src="./assets/images/canvas/marker3.svg" alt="icon" />
+                        </div>
+                        <div class="canvas__menu__icon" onClick="drawTextField()">
+                            <img class="fit-parent" src="./assets/images/canvas/textfield.svg" alt="icon" />
+                        </div>
+                        <div class="canvas__menu__icon" onclick="drawRectangle()">
+                            <img class="fit-parent" src="./assets/images/canvas/rectangle.svg" alt="icon" />
+                        </div>
+                        <div class="canvas__menu__icon" onclick="drawCircle()">
+                            <img class="fit-parent" src="./assets/images/canvas/circle.svg" alt="icon" />
+                        </div>
+                        <div class="canvas__menu__icon" onclick="clearCanvas()">
+                            <img class="fit-parent" src="./assets/images/canvas/eraser.svg" alt="icon" />
+                        </div>
+                        <div class="canvas__menu__icon canvas__menu__icon--thickness" onclick="openThicknessPrompt()">
+                            <img class="fit-parent" src="./assets/images/canvas/thickness.svg" alt="icon" />
+                            <div class="canvas__menu__icon__thickness">
+                                <div class="canvas__menu__icon__thickness__icon canvas__menu__icon__thickness--1" onclick="setThickness(4)"></div>
+                                <div class="canvas__menu__icon__thickness__icon canvas__menu__icon__thickness--2" onclick="setThickness(6)"></div>
+                                <div class="canvas__menu__icon__thickness__icon canvas__menu__icon__thickness--3" onclick="setThickness(8)"></div>
+                                <div class="canvas__menu__icon__thickness__icon canvas__menu__icon__thickness--4" onclick="setThickness(10)"></div>
+                            </div>
+                        </div>
+                        <div class="canvas__menu__icon canvas__menu__icon--color_picker" onclick="openColorPrompt()">
+                            <div class="canvas__menu__icon__color_selector">
+                                <div class="canvas__menu__icon__color_selector__color"></div>
+                            </div>
+                            <div class="canvas__menu__icon__colors">
+                                <div class="canvas__menu__icon__colors__color" onclick="setColor('purple')" style="background-color: purple"></div>
+                                <div class="canvas__menu__icon__colors__color" onclick="setColor('black')" style="background-color: black"></div>
+                                <div class="canvas__menu__icon__colors__color" onclick="setColor('red')" style="background-color: red"></div>
+                                <div class="canvas__menu__icon__colors__color" onclick="setColor('blue')" style="background-color: blue"></div>
+                                <div class="canvas__menu__icon__colors__color" onclick="setColor('green')" style="background-color: green"></div>
+                                <div class="canvas__menu__icon__colors__color" onclick="setColor('orangered')" style="background-color: orangered"></div>
+                                <div class="canvas__menu__icon__colors__color" onclick="setColor('darkturquoise')" style="background-color: darkturquoise"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <canvas></canvas>
+                </div>
+
+                <!--                        -->
+
+                <!-- shareScreen element -->
+
+                <video muted autoplay id="shareScreen" style="pointer-events: none"></video>
+                <div class="lms__content__controls">
+                    <div class="lms__content__controls__item lms__content__controls__fullscreen" onclick="makeShareElementFullScreen()">
+                        <img src="./assets/images/resizeScreen.svg" alt="icon" class="fit-parent" />
+                    </div>
+                    <div class="lms__content__controls__item lms__content__controls__stop" onclick="makeShareElementClose()">
+                        <img src="./assets/images/closeShare.svg" alt="icon" class="fit-parent" />
+                    </div>
+                </div>
+
+                <!--                     -->
+            </div>
+        </div>
+
+        <script src="./canvas.js"></script>
+        <script src="./chat.js"></script>
+        <script>
+            const webcam = document.getElementById("webcam");
+            const shareScreenElem = document.getElementById("shareScreen");
+            const camMute = document.querySelector(".lms__navbar__users__user__nowebcam");
+            const micMute = document.querySelector(".lms__navbar__users__user__nomic");
+            const canvasContainer = document.querySelector(".canvas");
+            const shareControlsContainer = document.querySelector(".lms__content__controls");
+            const fullScreenElement = document.querySelector(".lms__content__controls__fullscreen");
+            let isSharingScreen = false;
+
+            const displayMediaOptions = {
+                preferCurrentTab: true,
+                video: {
+                    cursor: "always",
+                    mediaSource: "screen",
+                },
+                audio: false,
+            };
+
+            (async () => {
+                navigator.mediaDevices
+                    .getUserMedia({
+                        audio: true,
+                        video: true,
+                    })
+                    .then((stream) => {
+                        webcam.srcObject = stream;
+
+                        document.querySelector(".video__controlls__controll__webcam").addEventListener("click", () => {
+                            if (webcam.srcObject) {
+                                webcam.srcObject = null;
+                                camMute.style.display = "flex";
+                            } else {
+                                webcam.srcObject = stream;
+                                camMute.style.display = "none";
+                            }
+                        });
+
+                        document.querySelector(".video__controlls__controll__microphone").addEventListener("click", () => {
+                            if (micMute.style.display === "none" || micMute.style.display === "") {
+                                micMute.style.display = "flex";
+                            } else {
+                                micMute.style.display = "none";
+                            }
+                        });
+                    });
+            })();
+
+            const shareScreen = () => {
+                navigator.mediaDevices.getDisplayMedia(displayMediaOptions).then((stream) => {
+                    shareScreenElem.srcObject = stream;
+                    shareControlsContainer.style.display = "flex";
+                    canvasContainer.style.display = "none";
+                });
+            };
+
+            const makeShareElementFullScreen = () => {
+                if (contentContainer.classList.contains("fullscreen")) {
+                    contentContainer.classList.remove("fullscreen");
+                } else {
+                    contentContainer.classList.add("fullscreen");
+                }
+            };
+
+            const makeShareElementClose = () => {
+                shareScreenElem.srcObject.getTracks().forEach((track) => {
+                    track.stop();
+                });
+
+                shareControlsContainer.style.display = "none";
+                canvasContainer.style.display = "block";
+            };
+        </script>
+    </body>
+</html>
+
+<style>
+    .fullscreen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+    }
+    .lms {
+        height: 100%;
+        display: flex;
+        direction: rtl;
+        overflow: hidden;
+    }
+
+    .lms__content > video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .lms__content__controls {
+        display: none;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 99;
+        width: 200px;
+        height: 200px;
+        align-items: center;
+    }
+
+    .lms__content__controls__item {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        background: white;
+        box-shadow: 0 0 20px #00000040;
+        border-radius: 99px;
+        margin-left: 10px;
+        padding: 6;
+    }
+
+    .lms__navbar {
+        width: 500px;
+        position: relative;
+        z-index: 99;
+        flex: 0 0 500px;
+        background: white;
+        padding: 30px;
+        box-shadow: 0 -20px 50px #00000020;
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    .lms__navbar__title {
+        padding: 0 10px 20px 10px;
+        border-bottom: 2px solid var(--color-gray-2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .lms__navbar__title__text {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .lms__navbar__title__label {
+        font-size: 12px;
+        padding: 5px 20px;
+        border-radius: 99px;
+        color: white;
+        background: var(--color-green);
+    }
+
+    .lms__navbar__users {
+        margin: 20px 0 40px 0;
+        overflow: auto;
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .lms__navbar__users__user {
+        position: relative;
+        height: 145px;
+        background: rgb(247, 247, 247);
+        border: 1px solid rgb(230, 230, 230);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .lms__navbar__users__user #webcam {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .lms__navbar__users__user__icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 99px;
+        color: white;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 7px;
+        background-color: var(--color-blue);
+    }
+
+    .lms__navbar__users__user__status {
+        font-size: 12px;
+        color: var(--color-green);
+        margin-top: 5px;
+    }
+
+    .lms__content {
+        flex: 1;
+        background: rgb(235, 235, 235);
+    }
+
+    .lms__navbar__buttons {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        border-top: 1px solid var(--color-gray-2);
+        box-shadow: 0 0 50px #00000020;
+    }
+
+    .video__controlls {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    .video__controlls__controll {
+        cursor: pointer;
+        width: 25px;
+        height: 25px;
+    }
+
+    .lms__navbar__users__user__nowebcam,
+    .lms__navbar__users__user__nomic {
+        position: absolute;
+        border-radius: 99px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background-color: red;
+    }
+
+    .lms__navbar__users__user__nowebcam {
+        padding: 7px;
+        width: 50px;
+        height: 50px;
+    }
+
+    .lms__navbar__users__user__nomic {
+        padding: 2px;
+        width: 20px;
+        height: 20px;
+        top: 10px;
+        left: 10px;
+    }
+</style>

@@ -1,0 +1,453 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="./styles/styles.css" />
+    </head>
+    <body>
+        <div class="canvas">
+            <div class="canvas__menu">
+                <div class="canvas__menu__icon" onclick="setThickness()">
+                    <img class="fit-parent" src="./assets/images/canvas/marker1.svg" alt="icon" />
+                </div>
+                <div class="canvas__menu__icon" onclick="setThickness(3)">
+                    <img class="fit-parent" src="./assets/images/canvas/marker3.svg" alt="icon" />
+                </div>
+                <div class="canvas__menu__icon" onClick="drawTextField()">
+                    <img class="fit-parent" src="./assets/images/canvas/textfield.svg" alt="icon" />
+                </div>
+                <div class="canvas__menu__icon" onclick="drawRectangle()">
+                    <img class="fit-parent" src="./assets/images/canvas/rectangle.svg" alt="icon" />
+                </div>
+                <div class="canvas__menu__icon" onclick="drawCircle()">
+                    <img class="fit-parent" src="./assets/images/canvas/circle.svg" alt="icon" />
+                </div>
+                <div class="canvas__menu__icon" onclick="clearCanvas()">
+                    <img class="fit-parent" src="./assets/images/canvas/eraser.svg" alt="icon" />
+                </div>
+                <div class="canvas__menu__icon canvas__menu__icon--thickness" onclick="openThicknessPrompt()">
+                    <img class="fit-parent" src="./assets/images/canvas/thickness.svg" alt="icon" />
+                    <div class="canvas__menu__icon__thickness">
+                        <div class="canvas__menu__icon__thickness__icon canvas__menu__icon__thickness--1" onclick="setThickness(4)"></div>
+                        <div class="canvas__menu__icon__thickness__icon canvas__menu__icon__thickness--2" onclick="setThickness(6)"></div>
+                        <div class="canvas__menu__icon__thickness__icon canvas__menu__icon__thickness--3" onclick="setThickness(8)"></div>
+                        <div class="canvas__menu__icon__thickness__icon canvas__menu__icon__thickness--4" onclick="setThickness(10)"></div>
+                    </div>
+                </div>
+                <div class="canvas__menu__icon canvas__menu__icon--color_picker" onclick="openColorPrompt()">
+                    <div class="canvas__menu__icon__color_selector">
+                        <div class="canvas__menu__icon__color_selector__color"></div>
+                    </div>
+                    <div class="canvas__menu__icon__colors">
+                        <div class="canvas__menu__icon__colors__color" onclick="setColor('purple')" style="background-color: purple"></div>
+                        <div class="canvas__menu__icon__colors__color" onclick="setColor('black')" style="background-color: black"></div>
+                        <div class="canvas__menu__icon__colors__color" onclick="setColor('red')" style="background-color: red"></div>
+                        <div class="canvas__menu__icon__colors__color" onclick="setColor('blue')" style="background-color: blue"></div>
+                        <div class="canvas__menu__icon__colors__color" onclick="setColor('green')" style="background-color: green"></div>
+                        <div class="canvas__menu__icon__colors__color" onclick="setColor('orangered')" style="background-color: orangered"></div>
+                        <div class="canvas__menu__icon__colors__color" onclick="setColor('darkturquoise')" style="background-color: darkturquoise"></div>
+                    </div>
+                </div>
+            </div>
+            <canvas></canvas>
+        </div>
+    </body>
+</html>
+
+<script>
+    const canvas = document.querySelector("canvas");
+    const canvas_container = document.querySelector(".canvas");
+    const thicknessPrompt = document.querySelector(".canvas__menu__icon__thickness");
+    const colorPrompt = document.querySelector(".canvas__menu__icon__colors");
+    const colorPromptContainer = document.querySelector(".canvas__menu__icon--color_picker");
+    const thicknessPromptContainer = document.querySelector(".canvas__menu__icon--thickness");
+    const colorPicker = document.querySelector(".canvas__menu__icon__color_selector__color");
+    const ctx = canvas.getContext("2d");
+
+    // click outside handler
+    document.addEventListener("click", (e) => {
+        const isClickInsidePrompt = thicknessPromptContainer.contains(e.target);
+        const isClickInsideColorPrompt = colorPromptContainer.contains(e.target);
+
+        if (!isClickInsidePrompt) {
+            thicknessPrompt.style.display = "none";
+        }
+
+        if (!isClickInsideColorPrompt) {
+            colorPrompt.style.display = "none";
+        }
+    });
+
+    // Make it visually fill the positioned parent
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    // ...then set the internal size to match
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    ctx.scale(1, 1);
+
+    let plots = [];
+    let shapes = [];
+    let pointHistory = {};
+    const mousePos = {};
+    let strokeThickness = 1;
+    let currentColor = "black";
+    let isPainting = false;
+    let isDrawingCircle = false;
+    let isDrawingRectangle = false;
+    let isElementDragging = false;
+    let elem = null;
+
+    // draw functions
+
+    const drawline = (coords, thickness, color) => {
+        let i;
+        ctx.lineWidth = thickness;
+        ctx.strokeStyle = color;
+        ctx.lineCap = "round";
+        canvas.lineJoin = "round";
+
+        ctx.beginPath();
+        ctx.moveTo(coords[0].x, coords[0].y);
+        for (i = 1; i < coords.length - 2; i++) {
+            // this.vueCanvasCtx.lineTo(coords[i].x, coords[i].y);
+            var xc = (coords[i].x + coords[i + 1].x) / 2;
+            var yc = (coords[i].y + coords[i + 1].y) / 2;
+            ctx.quadraticCurveTo(coords[i].x, coords[i].y, xc, yc);
+        }
+
+        if (i >= 2) {
+            // For the last 2 points
+            ctx.quadraticCurveTo(coords[i].x, coords[i].y, coords[i + 1].x, coords[i + 1].y);
+        }
+        ctx.stroke();
+    };
+
+    // events
+    canvas.addEventListener("mousemove", (e) => {
+        let rect = canvas.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+        let y = e.clientY - rect.top;
+
+        mousePos.x = x;
+        mousePos.y = y;
+
+        if (isPainting) {
+            plots.push({ x: x, y: y });
+
+            shapes.push({
+                type: "brush",
+                coords: [...plots],
+                color: currentColor,
+                thickness: strokeThickness,
+            });
+        }
+
+        if (isElementDragging) {
+            elem.style.left = e.pageX - elem.offsetWidth / 2 + "px";
+            elem.style.top = e.pageY - elem.offsetHeight / 2 + "px";
+        }
+    });
+
+    canvas.addEventListener("mouseup", (e) => {
+        plots = [];
+        isPainting = false;
+        elem = null;
+        isElementDragging = false;
+        let rect = canvas.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+        let y = e.clientY - rect.top;
+        pointHistory.end = { x, y };
+
+        if (isDrawingCircle) {
+            const distance = calculateDistance(pointHistory.start.x, pointHistory.end.x, pointHistory.start.y, pointHistory.end.y);
+            drawArc(pointHistory.start.x, pointHistory.start.y, distance);
+            shapes.push({
+                type: "circle",
+                x: pointHistory.start.x,
+                y: pointHistory.start.y,
+                radius: distance,
+                thickness: strokeThickness,
+                color: currentColor,
+            });
+            isDrawingCircle = false;
+        }
+
+        if (isDrawingRectangle) {
+            drawRect(pointHistory.start.x, pointHistory.start.y, pointHistory.end.x, pointHistory.end.y);
+            shapes.push({
+                type: "rectangle",
+                x1: pointHistory.start.x,
+                y1: pointHistory.start.y,
+                x2: pointHistory.end.x,
+                y2: pointHistory.end.y,
+                thickness: strokeThickness,
+                color: currentColor,
+            });
+            isDrawingRectangle = false;
+        }
+        pointHistory = {};
+    });
+
+    canvas.addEventListener("mousedown", (e) => {
+        if (isDrawingCircle || isDrawingRectangle) {
+            let rect = canvas.getBoundingClientRect();
+            let x = e.clientX - rect.left;
+            let y = e.clientY - rect.top;
+            pointHistory.start = { x, y };
+        } else {
+            isPainting = true;
+        }
+    });
+
+    const openThicknessPrompt = () => {
+        thicknessPrompt.style.display = "flex";
+    };
+
+    const openColorPrompt = () => {
+        console.log("hello world");
+        colorPrompt.style.display = "flex";
+    };
+
+    const clearCanvas = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        plots = [];
+        shapes = [];
+        pointHistory = {};
+        mousePos = {};
+        isPainting = false;
+        isDrawingCircle = false;
+        isDrawingRectangle = false;
+        isElementDragging = false;
+        elem = null;
+    };
+
+    const setThickness = (thickness) => {
+        if (thickness) {
+            strokeThickness = thickness;
+        }
+    };
+
+    const setColor = (color) => {
+        currentColor = color;
+        colorPicker.style.backgroundColor = color;
+    };
+
+    const drawCircle = () => {
+        isDrawingRectangle = false;
+        isDrawingCircle = true;
+    };
+
+    const drawRectangle = () => {
+        isDrawingCircle = false;
+        isDrawingRectangle = true;
+    };
+
+    const drawTextField = () => {
+        const { x, y } = mousePos;
+        const input = document.createElement("textarea");
+        input.classList.add("canvas_input");
+        input.setAttribute("placeholder", "متن را وارد کنید");
+        input.style.top = `${x}px`;
+        input.style.left = `${y}px`;
+
+        input.addEventListener("mousedown", (e) => {
+            isElementDragging = true;
+            elem = e.target;
+        });
+
+        input.addEventListener("mouseup", () => {
+            isElementDragging = false;
+            elem = null;
+        });
+
+        canvas_container.appendChild(input);
+    };
+
+    const drawArc = (x, y, radius, thickness, color) => {
+        ctx.beginPath();
+        ctx.lineWidth = thickness;
+        ctx.strokeStyle = color;
+        ctx.arc(x, y, radius, 0, 2 * Math.PI);
+        ctx.stroke();
+    };
+
+    const drawRect = (x1, y1, x2, y2, thickness, color) => {
+        const __x2 = x1 - x2;
+        const __y2 = y1 - y2;
+
+        ctx.beginPath();
+        ctx.rect(x1, y1, __x2 * -1, __y2 * -1);
+        ctx.lineWidth = thickness;
+        ctx.strokeStyle = color;
+        ctx.stroke();
+    };
+
+    const calculateDistance = (x1, x2, y1, y2) => {
+        const _x = Math.pow(x2 - x1, 2);
+        const _y = Math.pow(y1 - y2, 2);
+        return Math.sqrt(_x + _y);
+    };
+
+    const drawFrames = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < shapes.length; i++) {
+            const shape = shapes[i];
+
+            if (shape.type === "circle") {
+                drawArc(shape.x, shape.y, shape.radius, shape.thickness, shape.color);
+            }
+
+            if (shape.type === "rectangle") {
+                drawRect(shape.x1, shape.y1, shape.x2, shape.y2, shape.thickness, shape.color);
+            }
+
+            if (shape.type === "brush") {
+                drawline(shape.coords, shape.thickness, shape.color);
+            }
+        }
+    };
+
+    const animate = () => {
+        requestAnimationFrame(animate);
+        drawFrames();
+
+        if (isDrawingCircle && pointHistory.start.x && pointHistory.start.y) {
+            // get current mousePosition
+            const distance = calculateDistance(pointHistory.start.x, mousePos.x, pointHistory.start.y, mousePos.y);
+            drawArc(pointHistory.start.x, pointHistory.start.y, distance);
+        }
+
+        if (isDrawingRectangle) {
+            drawRect(pointHistory.start.x, pointHistory.start.y, mousePos.x, mousePos.y);
+        }
+    };
+    animate();
+</script>
+
+<style>
+    .canvas {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: white;
+        background-color: #ffffff;
+        background-image: radial-gradient(#00000023 2px, #ffffff 2px);
+        background-size: 40px 40px;
+    }
+
+    .canvas__menu {
+        position: absolute;
+        top: 50%;
+        left: 20px;
+        width: 50px;
+        height: 70%;
+        border-radius: 7px;
+        transform: translateY(-50%);
+        background-color: white;
+        box-shadow: 0 0 35px #00000026;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+
+    .canvas__menu__icon {
+        width: 50px;
+        height: 50px;
+        padding: 10px;
+        cursor: pointer;
+        border-left: 2px solid transparent;
+        transition: 0.1s ease;
+        position: relative;
+    }
+
+    .canvas__menu__icon:hover {
+        border-left: 2px solid var(--color-blue);
+    }
+
+    .canvas__menu__icon__color_selector {
+        height: 100%;
+        width: 100%;
+        border: 3px solid black;
+        padding: 2px;
+        border-radius: 99px;
+    }
+
+    .canvas__menu__icon__color_selector__color {
+        height: 100%;
+        width: 100%;
+        border-radius: 99px;
+
+        background-color: black;
+    }
+
+    .canvas_input {
+        outline: none;
+        border: none;
+        width: 200px;
+        height: 150px;
+        min-height: 150px;
+        position: absolute;
+        background-color: transparent;
+        font-family: "Shabnam";
+        direction: rtl;
+    }
+
+    .canvas_input:focus {
+        border: 2px solid black;
+    }
+
+    .canvas__menu__icon__thickness,
+    .canvas__menu__icon__colors {
+        position: absolute;
+        top: 0;
+        left: 49px;
+    }
+
+    .canvas__menu__icon__thickness,
+    .canvas__menu__icon__colors {
+        width: 200px;
+        height: 50px;
+        background: white;
+        border-radius: 0 10px 10px 0;
+        box-shadow: 0 0 30px #00000022;
+        display: none;
+        justify-content: space-evenly;
+        align-items: center;
+        gap: 10px;
+        padding: 0 10px;
+    }
+
+    .canvas__menu__icon__thickness__icon {
+        flex: 1;
+        background: black;
+    }
+
+    .canvas__menu__icon__thickness--1 {
+        height: 3px;
+    }
+    .canvas__menu__icon__thickness--2 {
+        height: 6px;
+    }
+    .canvas__menu__icon__thickness--3 {
+        height: 8px;
+    }
+    .canvas__menu__icon__thickness--4 {
+        height: 12px;
+    }
+
+    .canvas__menu__icon__colors {
+        display: none;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .canvas__menu__icon__colors__color {
+        width: 40px;
+        height: 18px;
+        border-radius: 99px;
+    }
+</style>

@@ -1,0 +1,123 @@
+.canvas {
+    position: relative;
+    flex: 1;
+    margin: 0 auto;
+    width: auto;
+    height: 100%;
+    background: white;
+    background-color: #ffffff;
+    background-image: radial-gradient(#00000023 2px, #ffffff 2px);
+    background-size: 40px 40px;
+}
+
+.canvas__menu {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    width: 50px;
+    height: 70%;
+    border-radius: 7px;
+    transform: translateY(-50%);
+    background-color: white;
+    box-shadow: 0 0 35px #00000026;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.canvas__menu__icon {
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: 0.1s ease;
+    position: relative;
+}
+
+.canvas__menu__icon:hover {
+    border-left: 2px solid var(--color-blue);
+}
+
+.canvas__menu__icon__color_selector {
+    height: 100%;
+    width: 100%;
+    border: 3px solid black;
+    padding: 2px;
+    border-radius: 99px;
+}
+
+.canvas__menu__icon__color_selector__color {
+    height: 100%;
+    width: 100%;
+    border-radius: 99px;
+
+    background-color: black;
+}
+
+.canvas_input {
+    outline: none;
+    border: none;
+    width: 200px;
+    height: 150px;
+    min-height: 150px;
+    position: absolute;
+    background-color: transparent;
+    font-family: "Shabnam";
+    direction: rtl;
+}
+
+.canvas_input:focus {
+    border: 2px solid black;
+}
+
+.canvas__menu__icon__thickness,
+.canvas__menu__icon__colors {
+    position: absolute;
+    top: 0;
+    left: 49px;
+}
+
+.canvas__menu__icon__thickness,
+.canvas__menu__icon__colors {
+    width: 200px;
+    height: 50px;
+    background: white;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 0 30px #00000022;
+    display: none;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px;
+}
+
+.canvas__menu__icon__thickness__icon {
+    flex: 1;
+    background: black;
+}
+
+.canvas__menu__icon__thickness--1 {
+    height: 3px;
+}
+.canvas__menu__icon__thickness--2 {
+    height: 6px;
+}
+.canvas__menu__icon__thickness--3 {
+    height: 8px;
+}
+.canvas__menu__icon__thickness--4 {
+    height: 12px;
+}
+
+.canvas__menu__icon__colors {
+    display: none;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.canvas__menu__icon__colors__color {
+    width: 40px;
+    height: 18px;
+    border-radius: 99px;
+}

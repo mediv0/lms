@@ -1,0 +1,1233 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="app">
+            <div class="room">
+                <div class="header">
+                    <div class="header__title">
+                        <div class="header__title__logo">
+                            <img class="fit-parent" src="./assets/images/IRI.Army_Ground_Force_Seal.svg.png" alt="logo" />
+                        </div>
+                        <h1>سیستم ارتباط تصویری</h1>
+                    </div>
+                    <div class="header__content">
+                        <h1 class="header__content__title">
+                            ملاقات ثبت انتقادات و پشنهادات و ارتباط
+                            <span class="header__content__title__mark">ONLINE</span>
+                        </h1>
+                        <div class="header__content__actions">
+                            <div class="header__content__actions__icons">
+                                <div
+                                    @click="
+                            isPrompt1Open = !isPrompt1Open;
+                            isPrompt2Open = false;
+                        "
+                                    class="header__content__actions__icons__icon header__content__actions__icons__icon--notif"
+                                >
+                                    <img src="./assets/images/notification.svg" class="fit-parent" />
+                                </div>
+                                <div
+                                    @click="
+                            isPrompt2Open = !isPrompt2Open;
+                            isPrompt1Open = false;
+                        "
+                                    class="header__content__actions__icons__icon header__content__actions__icons__icon--notif_box"
+                                >
+                                    <img src="./assets/images/notification-box.svg" class="fit-parent" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="room__main">
+                    <div class="menu">
+                        <p class="menu__title">اسامی شرکت کنندگان در جلسه</p>
+                        <ul class="menu__list">
+                            <li class="menu__list__item">
+                                <span class="online"></span>
+                                مهدی فخر
+                            </li>
+                            <li class="menu__list__item">
+                                <span class="online"></span>
+                                رضا محمدی
+                            </li>
+                            <li class="menu__list__item">
+                                <span class="online"></span>
+                                احمد حسین
+                            </li>
+                            <li class="menu__list__item">
+                                <span class="online"></span>
+                                محمد مهدی زمانی
+                            </li>
+                            <li class="menu__list__item">
+                                <span class="offline"></span>
+                                رضا یزدانی
+                            </li>
+                            <li class="menu__list__item">
+                                <span class="offline"></span>
+                                طاها مرادی
+                            </li>
+                        </ul>
+
+                        <ul class="menu__dashboard">
+                            <li class="menu__dashboard__item">
+                                <div class="menu__dashboard__item__icon">
+                                    <img src="./assets/images/dashboard_items/settings.svg" class="fit-parent" />
+                                </div>
+                                تنظیمات
+                            </li>
+                            <li class="menu__dashboard__item">
+                                <div class="menu__dashboard__item__icon">
+                                    <img src="./assets/images/dashboard_items/calendar.svg" class="fit-parent" />
+                                </div>
+                                تقویم
+                            </li>
+                            <li class="menu__dashboard__item">
+                                <div class="menu__dashboard__item__icon">
+                                    <img src="./assets/images/dashboard_items/user.svg" class="fit-parent" />
+                                </div>
+                                پشتیبانی
+                            </li>
+                            <li class="menu__dashboard__item menu__dashboard__item--logout">
+                                <div class="menu__dashboard__item__icon">
+                                    <img src="./assets/images/dashboard_items/text-files.svg" class="fit-parent" />
+                                </div>
+                                خروج از سیستم
+                            </li>
+                        </ul>
+
+                        <div class="darkmode">
+                            <button class="darkmode__btn darkmode__btn--1" :class="{ darkmode__btn__active: activeSwitch === 'light' }" @click="setSwitchValue('light')">تم روشن</button>
+                            <button class="darkmode__btn darkmode__btn--2" :class="{ darkmode__btn__active: activeSwitch === 'dark' }" @click="setSwitchValue('dark')">تم سیاه</button>
+                        </div>
+
+                        <div class="user">
+                            <div class="user__icon">
+                                <img src="./assets/images/dashboard_items/user.svg" class="fit-parent" />
+                            </div>
+                            <div class="user__content">
+                                <p>محمد مهدی فخر</p>
+                                <p class="user__content__status">آنلاین</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+
+
+
+
+
+                    -->
+
+                    <div class="call">
+                        <div class="call__actions">
+                            <div class="call__actions__users__add__grid">
+                                <div class="call__actions__users__add__grid__img" @click="gridHandler('default')">
+                                    <img src="./assets/images/grid/default.svg" class="fit-parent" />
+                                </div>
+                                <div class="call__actions__users__add__grid__img" @click="gridHandler('all_in_one')">
+                                    <img src="./assets/images/grid/all-in-one.svg" class="fit-parent" />
+                                </div>
+                                <div class="call__actions__users__add__grid__img" @click="gridHandler('all_in_one_small')">
+                                    <img src="./assets/images/grid/all-in-one-small.svg" class="fit-parent" />
+                                </div>
+                                <p class="call__actions__fullscreen" onclick="setFullscreen()">تمام صفحه</p>
+                            </div>
+                            <div class="call__actions__users__add">
+                                <button style="background: red" class="button small_button normal_button" @onClick="addUserHandler">اضافه کردن کاربر جدید</button>
+                            </div>
+                        </div>
+                        <!--
+
+
+                        -->
+
+                        <div class="grid" ref="grid">
+                            <div class="grid__main">
+                                <div class="card card--main" :class="{ 'anim-test': anim, 'anim-full': !anim }" :style="{ borderColor: isUserSpeaking ? '#3ce261' : 'transparent' }">
+                                    <div class="lms__navbar__users__user__nowebcam">
+                                        <img src="./assets/images/controller/video_off.svg" alt="mute icon" class="fit-parent" />
+                                    </div>
+                                    <div class="lms__navbar__users__user__nomic">
+                                        <img src="./assets/images/controller/microphone_mute.svg" alt="mute icon" class="fit-parent" />
+                                    </div>
+                                    <Spinner v-show="isLoading" />
+                                    <video autoplay muted class="webcam" style="width: 100%; height: 100%; object-fit: cover"></video>
+                                    <div v-if="!isLoading" class="video__controlls">
+                                        <div class="video__controlls__controll" title="ضبط تصویر" onclick="recordPage()">
+                                            <img src="./assets/images/controller/record.svg" class="fit-parent svg-default-color" />
+                                        </div>
+                                        <div class="video__controlls__controll video__controlls__controll__microphone" title="بستن میکروفون">
+                                            <img src="./assets/images/controller/microphone.svg" class="fit-parent svg-default-color" />
+                                        </div>
+                                        <div class="video__controlls__controll" title="خروج">
+                                            <img src="./assets/images/controller/close_circle.svg" class="fit-parent" />
+                                        </div>
+                                        <div class="video__controlls__controll video__controlls__controll__webcam" title="بستن تصویر">
+                                            <img src="./assets/images/controller/video.svg" class="fit-parent svg-default-color" />
+                                        </div>
+                                        <div class="video__controlls__controll" title="عکس از تصویر">
+                                            <img src="./assets/images/controller/chat_audio.svg" class="fit-parent svg-default-color" />
+                                        </div>
+                                    </div>
+                                    <!-- mute microphone -->
+                                </div>
+
+                                <div class="card card--main card--audience">
+                                    <div class="card card--nocam card--nocam__audience">
+                                        <div class="card__name card__name__audience">M</div>
+                                        <p>مهدی فخر</p>
+                                        <button small class="button small_button" color="red" style="background-color: red" onclick="closeCall()">قطع تماس</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid__users" :class="[current]">
+                                <div class="card card--nocam">
+                                    <div class="card__name">M</div>
+                                    <p>مهدی فخر</p>
+                                    <button small class="button small_button" onclick="callHandler('مهدی فخر', 'M')">تماس</button>
+                                </div>
+                                <div class="card card--nocam">
+                                    <div class="card__name">L</div>
+                                    <p>رضا احمدی</p>
+                                    <button small class="button small_button" onclick="callHandler('رضا احمدی', 'R')">تماس</button>
+                                </div>
+                                <div class="card card--nocam">
+                                    <div class="card__name">S</div>
+                                    <p>مهدی زمانی</p>
+                                    <button small class="button small_button" onclick="callHandler('مهدی زمانی', 'M')">تماس</button>
+                                </div>
+                                <div class="card card--nocam">
+                                    <div class="card__name">D</div>
+                                    <p>امیر حسین فرهادی</p>
+                                    <button small class="button small_button" onclick="callHandler('امیرحسین فرهادی', 'A')">تماس</button>
+                                </div>
+                                <div class="card card--nocam">
+                                    <div class="card__name">P</div>
+                                    <p>محمد رضا کمیجانی</p>
+                                    <button small class="button small_button" onclick="callHandler('محمد رضا کمیجانی', 'K')">تماس</button>
+                                </div>
+                                <div class="card card--nocam">
+                                    <div class="card__name">G</div>
+                                    <p>حسین احمدی</p>
+                                    <button small class="button small_button" onclick="callHandler('حسین احمدی', 'H')">تماس</button>
+                                </div>
+                                <div class="card card--nocam">
+                                    <div class="card__name">K</div>
+                                    <p>محمد اصغری</p>
+                                    <button class="button small_button" small onclick="callHandler('محمد اصغری', 'S')">تماس</button>
+                                </div>
+                                <div class="card card--nocam">
+                                    <div class="card__name">M</div>
+                                    <p>امیر حسین زمانی</p>
+                                    <button class="button small_button" onclick="callHandler('امیرحسین زمانی', 'D')">تماس</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--
+
+
+                        -->
+                    </div>
+
+                    <!--
+
+
+
+                    -->
+                    <div class="chatroom">
+                        <div class="chatroom__title">
+                            <div class="chatroom__title__icon">
+                                <img src="./assets/images/chat.svg" class="fit-parent" />
+                            </div>
+                            <h1>چت روم</h1>
+                        </div>
+
+                        <ul class="chatroom__content chatroom__list"></ul>
+
+                        <div class="chatroom__input">
+                            <div>
+                                <div class="chatroom__input__icon" onclick="postChat()">
+                                    <img src="./assets/images/send.svg" class="fit-parent" />
+                                </div>
+                            </div>
+                            <input class="chatroom__input__val" type="text" placeholder="متن پیام را وارد کنید" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="./chat.js"></script>
+        <script>
+            const webcam = document.querySelector(".webcam");
+            const audienceCard = document.querySelector(".card--audience");
+
+            const camMute = document.querySelector(".lms__navbar__users__user__nowebcam");
+            const micMute = document.querySelector(".lms__navbar__users__user__nomic");
+
+            //
+            const nameAudience = document.querySelector(".card--nocam__audience > p");
+            const keyAudience = document.querySelector(".card__name__audience");
+
+            const grid = document.querySelector(".grid");
+            const call = document.querySelector(".call");
+
+            const fullscreenButton = document.querySelector(".call__actions__fullscreen");
+
+            let name = "";
+            let key = "";
+
+            (() => {
+                navigator.mediaDevices
+                    .getUserMedia({
+                        audio: true,
+                        video: true,
+                    })
+                    .then((stream) => {
+                        webcam.srcObject = stream;
+
+                        document.querySelector(".video__controlls__controll__webcam").addEventListener("click", () => {
+                            if (webcam.srcObject) {
+                                webcam.srcObject = null;
+                                camMute.style.display = "flex";
+                            } else {
+                                webcam.srcObject = stream;
+                                camMute.style.display = "none";
+                            }
+                        });
+
+                        document.querySelector(".video__controlls__controll__microphone").addEventListener("click", () => {
+                            if (micMute.style.display === "none" || micMute.style.display === "") {
+                                micMute.style.display = "flex";
+                            } else {
+                                micMute.style.display = "none";
+                            }
+                        });
+                    });
+            })();
+
+            const callHandler = (_name, _key) => {
+                nameAudience.innerHTML = _name;
+                keyAudience.innerHTML = _key;
+                grid.scrollTop = 0;
+                audienceCard.style.display = "flex";
+            };
+
+            const closeCall = () => {
+                audienceCard.style.display = "none";
+            };
+
+            const setFullscreen = () => {
+                if (call.classList.contains("fullscreen")) {
+                    fullscreenButton.innerHTML = "تمام صفحه";
+                    call.classList.remove("fullscreen");
+                } else {
+                    fullscreenButton.innerHTML = "خروج از تمام صفحه";
+                    call.classList.add("fullscreen");
+                }
+            };
+
+            const recordPage = () => {
+                navigator.mediaDevices
+                    .getDisplayMedia({
+                        preferCurrentTab: true,
+                        video: { mediaSource: "screen" },
+                    })
+                    .then((stream) => {
+                        const recordedChunks = [];
+                        const recorder = new MediaRecorder(stream);
+
+                        recorder.addEventListener("dataavailable", function (e) {
+                            if (e.data.size > 0) recordedChunks.push(e.data);
+                        });
+
+                        recorder.addEventListener("stop", function () {
+                            const completeBlob = new Blob(recordedChunks, { type: recordedChunks[0].type });
+
+                            const downloadLink = document.createElement("a");
+                            downloadLink.href = URL.createObjectURL(completeBlob);
+                            downloadLink.download = "screen-recording.webm";
+                            downloadLink.click();
+
+                            stream.getVideoTracks().forEach((track) => track.stop());
+                        });
+
+
+                        recorder.start();
+                    });
+            };
+        </script>
+    </body>
+</html>
+
+<style>
+    @font-face {
+        font-family: "Shabnam";
+        src: url("./assets/fonts/Shabnam.woff") format("woff"), url("./assets/fonts/Shabnam.woff2") format("woff2");
+    }
+
+    .lms__navbar__users__user__nowebcam,
+    .lms__navbar__users__user__nomic {
+        position: absolute;
+        border-radius: 99px;
+        display: none;
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        background-color: red;
+    }
+
+    .lms__navbar__users__user__nowebcam {
+        padding: 7px;
+        width: 50px;
+        height: 50px;
+    }
+
+    .lms__navbar__users__user__nomic {
+        padding: 2px;
+        width: 20px;
+        height: 20px;
+        top: 10px;
+        left: 10px;
+    }
+    :root {
+        --base-font-size: 14px;
+        --font-family: "Shabnam", sans-serif;
+        --color-purple: #481984;
+        --color-green: #3ce261;
+        --color-blue: #487cff;
+        --dashboard-bg-color: white;
+        --header-bg-color: white;
+        --grid-card-bg-color: rgb(231, 231, 231);
+        --menu-svg-color: black;
+        --header-btn-hover: rgb(237, 237, 237);
+        --border-color: #f4f4f4;
+        --meeting-list-item: rgb(147, 147, 147);
+        --metting-list-item-hover: black;
+        --darkmode-bg: #f6f6f6;
+        --darkmode-bg-active: white;
+        --darkmode-text-color: rgb(141, 141, 141);
+        --darkmode-text-color-active: rgb(0, 0, 0);
+        --text-color-default: black;
+        --chatroom-icon-bg: rgb(248, 248, 248);
+        --chatroom-pattern-bg: rgb(229, 229, 229);
+        --chatroom-chat-bg: rgb(237, 237, 237);
+        --chatroom-chat-bg-hover: white;
+        --call-bg-color: white;
+        --controll-color: rgb(219, 219, 219);
+        --controll-color-hover: rgb(203, 203, 203);
+    }
+
+    [data-theme="dark"] {
+        --dashboard-bg-color: rgb(25, 25, 25);
+        --grid-card-bg-color: rgb(25, 25, 25);
+        --header-bg-color: rgb(37, 37, 37);
+        --header-btn-hover: rgb(46, 46, 46);
+        --menu-svg-color: white;
+        --border-color: #212121;
+        --meeting-list-item: white;
+        --metting-list-item-hover: rgb(165, 165, 165);
+        --darkmode-bg: rgb(57, 57, 57);
+        --darkmode-bg-active: rgb(19, 19, 19);
+        --darkmode-text-color: rgb(141, 141, 141);
+        --darkmode-text-color-active: white;
+        --text-color-default: white;
+        --chatroom-icon-bg: rgb(167, 167, 167);
+        --chatroom-pattern-bg: rgb(21, 21, 21);
+        --chatroom-chat-bg: rgb(12, 12, 12);
+        --chatroom-chat-bg-hover: rgb(23, 23, 23);
+        --call-bg-color: rgb(8, 8, 8);
+        --controll-color: rgb(28, 28, 28);
+        --controll-color-hover: rgb(19, 19, 19);
+    }
+
+    .button {
+        position: relative;
+        padding: 20px 40px;
+        background: #3ce261;
+        color: white;
+        font-size: 17px;
+        border-radius: 30px 12px 30px 12px;
+        transition: 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    .button::after {
+        position: absolute;
+        display: inline-block;
+        content: "↓";
+        transform: rotate(90deg);
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        margin-right: 15px;
+    }
+    .button:hover {
+        background: #26bb46;
+        padding: 20px 60px 20px 70px;
+    }
+    .button:hover::after {
+        opacity: 1;
+    }
+    .small_button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+    .small_button:hover {
+        padding: 10px 20px 10px 40px;
+    }
+    .normal_button {
+        border-radius: 30px;
+    }
+
+    html,
+    body {
+        font-size: var(--base-font-size);
+        box-sizing: border-box;
+        overflow-x: hidden;
+        -ms-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        padding: 0;
+        margin: 0;
+    }
+    body {
+        font-family: var(--font-family);
+        font-weight: 400;
+        height: 100vh;
+    }
+    *,
+    *::after,
+    *::before {
+        padding: 0;
+        margin: 0;
+        box-sizing: inherit;
+    }
+    li {
+        list-style: none;
+    }
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+    button {
+        font-family: inherit;
+        cursor: pointer;
+        border: none;
+        outline: none;
+    }
+    input {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+    }
+    /* Firefox */
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+    [debug],
+    [debug] > * {
+        border: 1px solid red;
+    }
+    .fit-parent {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .content_wrapper {
+        direction: rtl;
+        margin: 0 auto;
+        width: 870px;
+    }
+    .offline {
+        border: 2px solid red;
+    }
+    .online {
+        border: 2px solid var(--color-green);
+        transform: scale(1);
+        animation: pulse-black 2s infinite;
+    }
+    @keyframes pulse-black {
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 var(--color-green);
+        }
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+        }
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+    }
+    /* width */
+    ::-webkit-scrollbar {
+        width: 3px;
+    }
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 10px;
+    }
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-blue);
+        border-radius: 10px;
+    }
+    .room {
+        direction: rtl;
+        width: 100%;
+        height: 100vh;
+        background: white;
+    }
+    .room__main {
+        display: flex;
+    }
+
+    .header {
+        direction: rtl;
+        width: 100%;
+        border-bottom: 2px solid var(--border-color);
+        padding: 0px 30px;
+        display: flex;
+        align-items: center;
+        background-color: var(--header-bg-color);
+        transition: 0.2s ease;
+    }
+    .header__title {
+        display: inline-block;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: 30px 0 30px 125px;
+        flex-grow: 0;
+        border-left: 2px solid var(--border-color);
+    }
+    .header__title__logo {
+        width: 40px;
+        height: 40px;
+        margin-left: 15px;
+        user-select: none;
+        pointer-events: none;
+    }
+    .header__title > h1 {
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--text-color-default);
+    }
+    .header__content {
+        flex: 1;
+        margin-right: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .header__content__title {
+        position: relative;
+        font-size: 25px;
+        font-weight: lighter;
+        color: var(--text-color-default);
+    }
+    .header__content__title__mark {
+        position: absolute;
+        padding: 5px 8px 3px 5px;
+        border-radius: 99px;
+        background: var(--color-green);
+        color: white;
+        font-size: 8px;
+    }
+    .header__content__actions {
+        display: flex;
+        align-items: center;
+    }
+    .header__content__actions__icons {
+        display: flex;
+        margin-left: 20px;
+    }
+    .header__content__actions__icons__icon {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        padding: 13px;
+        border-radius: 20px;
+        background: transparent;
+        transition: 0.2s ease;
+        cursor: pointer;
+    }
+    .header__content__actions__icons__icon__prompt > li {
+        display: flex;
+        align-items: start;
+    }
+    .header__content__actions__icons__icon__prompt > li > span {
+        margin-left: 5px;
+        display: block;
+        width: 15px;
+        height: 15px;
+        border-radius: 99px;
+    }
+    .header__content__actions__icons__icon__prompt > li:not(:last-child) {
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .header__content__actions__icons__icon:hover {
+        background: var(--header-btn-hover);
+    }
+    .menu {
+        min-width: 355px;
+        flex: 0 0 355px;
+        padding: 40px;
+        height: calc(100vh - 102px);
+        background: var(--dashboard-bg-color);
+        transition: 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        border-left: 2px solid var(--border-color);
+    }
+    .menu__title {
+        border-bottom: 1px solid var(--border-color);
+        padding: 0px 0 20px 0;
+        color: var(--text-color-default);
+    }
+    .menu__list {
+        height: 250px;
+        border-bottom: 1px solid var(--border-color);
+        overflow: auto;
+        padding: 0 10px 30px 10px;
+        margin: 20px 0;
+        /* Track */
+        /* Handle */
+    }
+    .menu__list::-webkit-scrollbar {
+        width: 3px;
+    }
+    .menu__list::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 10px;
+    }
+    .menu__list::-webkit-scrollbar-thumb {
+        background: var(--color-blue);
+        border-radius: 10px;
+    }
+    .menu__list__item {
+        color: var(--meeting-list-item);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+    }
+    .menu__list__item:hover {
+        color: var(--metting-list-item-hover);
+    }
+    .menu__list__item > span {
+        display: block;
+        margin-left: 4px;
+        width: 10px;
+        height: 10px;
+        border-radius: 99px;
+    }
+    .menu__dashboard {
+        margin-bottom: auto;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: flex-end;
+    }
+    .menu__dashboard__item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+        cursor: pointer;
+        color: var(--meeting-list-item);
+        transition: 0.2s ease;
+    }
+    .menu__dashboard__item:hover {
+        color: var(--metting-list-item-hover);
+    }
+    .menu__dashboard__item__icon {
+        margin-left: 10px;
+        width: 26px;
+        height: 26px;
+    }
+    .menu__dashboard__item__icon > svg {
+        fill: var(--menu-svg-color);
+    }
+    .menu__dashboard__item--logout {
+        color: red;
+    }
+    .menu__dashboard__item--logout:hover {
+        color: red;
+    }
+    .darkmode {
+        width: 100%;
+        height: 70px;
+        background: var(--darkmode-bg);
+        border-radius: 99px;
+        padding: 6px;
+        display: flex;
+    }
+    .darkmode__btn {
+        flex: 1;
+        color: var(--darkmode-text-color);
+        outline: none;
+        border: none;
+        background: transparent;
+    }
+    .darkmode__btn__active {
+        background: var(--darkmode-bg-active);
+        box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.4);
+        color: var(--darkmode-text-color-active);
+        border-radius: 99px;
+    }
+    .user {
+        width: 100%;
+        height: 110px;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+    }
+    .user__content {
+        font-size: 14px;
+        margin-right: 13px;
+        color: var(--text-color-default);
+    }
+    .user__content__status {
+        margin-top: 2px;
+        font-size: 12px;
+        color: var(--color-green);
+    }
+    .user__icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .call {
+        flex: 1;
+        background-color: var(--call-bg-color);
+        color: var(--text-color-default);
+        height: calc(100vh - 102px);
+        overflow: hidden;
+        padding-bottom: 60px;
+    }
+    .call__actions {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 50px;
+    }
+    .call__actions__fullscreen {
+        cursor: pointer;
+        margin-right: 20px;
+        color: var(--color-blue);
+    }
+    .call__actions__users {
+        display: flex;
+    }
+    .call__actions__users__img {
+        width: 45px;
+        height: 45px;
+        border-radius: 99px;
+        overflow: hidden;
+        margin-left: -20px;
+    }
+    .call__actions__users__others {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        background: var(--header-bg-color);
+        border: 2px solid var(--border-color);
+        border-radius: 99px;
+        pointer-events: none;
+    }
+    .call__actions__users__add {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+    }
+    .call__actions__users__add__grid {
+        margin-left: 50px;
+        display: flex;
+        align-items: center;
+    }
+    .call__actions__users__add__grid__img {
+        cursor: pointer;
+        margin-right: 10px;
+        width: 30px;
+        height: 30px;
+    }
+    .fullscreen {
+        position: absolute;
+        inset: 0;
+        z-index: 99;
+        height: 100vh;
+        padding: 60px 100px 60px 100px;
+    }
+
+    .grid {
+        height: 100%;
+        overflow: auto;
+        padding: 0px 50px 50px 50px;
+        position: relative;
+        transition: grid-template-columns 1s ease;
+        /* width */
+        /* Track */
+        /* Handle */
+    }
+    .grid__main {
+        position: relative;
+        display: flex;
+        gap: 20px;
+    }
+    .grid__users {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+    .grid::-webkit-scrollbar {
+        width: 3px;
+    }
+    .grid::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 10px;
+    }
+    .grid::-webkit-scrollbar-thumb {
+        background: var(--color-blue);
+        border-radius: 10px;
+    }
+    .card {
+        width: 100%;
+        height: 250px;
+        background: var(--grid-card-bg-color);
+        border-radius: 20px;
+        transition: grid-template-columns 1s ease;
+    }
+    .card__name__audience {
+        animation: pulse 1s infinite ease forwards;
+    }
+    .card--audience {
+        border: 0px solid !important;
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
+    .card--main {
+        position: relative;
+        overflow: hidden;
+        border: 3px solid;
+        border-color: transparent;
+        height: 550px;
+    }
+    .card--main__mute {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        width: 30px;
+        height: 30px;
+        padding: 5px;
+        background: red;
+        border-radius: 99px;
+    }
+    .card--main > video {
+        min-width: 100%;
+        min-height: 100%;
+        /* Setting width & height to auto prevents the browser from stretching or squishing the video */
+        width: auto;
+        height: auto;
+        /* Center the video */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .card--nocam {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .card--nocam__audience {
+        font-size: 20px;
+    }
+    .card--nocam .card__name {
+        width: 80px;
+        height: 80px;
+        font-size: 40px;
+        border-radius: 99px;
+        background: rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .card--nocam > p {
+        margin: 20px 0 10px 0;
+    }
+    .default {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto;
+        transition: all 1s ease;
+    }
+    .default > *:nth-child(1) {
+        grid-column: -1;
+    }
+    .all_in_one {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto;
+        transition: all 1s ease;
+    }
+    .all_in_one > * {
+        height: 250px;
+    }
+    .all_in_one_small {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: auto;
+        transition: all 1s ease;
+    }
+    .all_in_one_small > * {
+        height: 200px;
+    }
+    .video__controlls {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 60%;
+        background: var(--header-bg-color);
+        border-radius: 999px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .video__controlls__controll {
+        cursor: pointer;
+        width: 35px;
+        height: 35px;
+        background: var(--controll-color);
+        border-radius: 99px;
+        padding: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .video__controlls__controll:hover {
+        background: var();
+    }
+    .video__controlls__controll:first-child {
+        margin-top: 12px;
+    }
+    .video__controlls__controll:last-child {
+        margin-bottom: 12px;
+    }
+    .svg-default-color {
+        fill: var(--text-color-default);
+    }
+    .anim-test {
+        width: 50% !important;
+        transition: 1.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    .anim-full {
+        width: 100% !important;
+        transition: 1.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    .anim-audience {
+        width: 50% !important;
+        transition: 1.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    .anim-audience-leave {
+        width: 0% !important;
+        transition: 1.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    @keyframes pulse {
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 var(--color-green);
+        }
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+        }
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+    }
+
+    .chatroom {
+        min-width: 296px;
+        flex: 0 0 296px;
+        border-right: 2px solid var(--border-color);
+        height: calc(100vh - 102px);
+        display: flex;
+        flex-direction: column;
+        transition: 0.2s ease;
+        background: var(--dashboard-bg-color);
+    }
+    .chatroom__title {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px 0px 20px;
+        color: var(--text-color-default);
+        position: relative;
+    }
+    .chatroom__title__icon {
+        width: 30px;
+        height: 30px;
+        padding: 5px;
+        background: var(--chatroom-icon-bg);
+        border-radius: 99px;
+    }
+    .chatroom__title > h1 {
+        font-size: 16px;
+        margin-right: 13px;
+        margin-left: auto;
+    }
+    .chatroom__content {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 20px;
+        background-color: #e5e5f7;
+        opacity: 0.8;
+        background-image: linear-gradient(var(--chatroom-pattern-bg) 1px, transparent 1px), linear-gradient(to right, var(--chatroom-pattern-bg) 1px, var(--dashboard-bg-color) 1px);
+        background-size: 20px 20px;
+        height: 80%;
+        overflow: auto;
+        /* width */
+        /* Track */
+        /* Handle */
+    }
+    .chatroom__content::-webkit-scrollbar {
+        width: 3px;
+    }
+    .chatroom__content::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 10px;
+    }
+    .chatroom__content::-webkit-scrollbar-thumb {
+        background: var(--color-blue);
+        border-radius: 10px;
+    }
+    .chatroom__content__item {
+        background: #d7d7d7;
+        padding: 15px;
+        margin-bottom: 14px;
+        border-radius: 13px;
+    }
+    .chatroom__content__item__name {
+        font-size: 11px;
+        margin-bottom: 5px;
+    }
+    .chatroom__content__item__file {
+        direction: ltr;
+    }
+    .chatroom__content__item__file__info {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+    }
+    .chatroom__content__item__file__icon {
+        width: 00px;
+        height: 00px;
+    }
+    .chatroom__content__item__file__name {
+        font-size: 15px;
+    }
+    .chatroom__content__item__file__size {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+    }
+    .chatroom__input {
+        width: 100%;
+        height: 70px;
+        position: relative;
+        padding: 10px;
+    }
+    .chatroom__input > input {
+        padding: 0 50px 0 10px;
+        border-radius: 999px;
+        border: none;
+        outline: none;
+        width: 100%;
+        height: 100%;
+        background-color: var(--chatroom-chat-bg);
+        color: var(--text-color-default);
+        border: 2px solid transparent;
+        transition: 0.2s ease;
+    }
+    .chatroom__input > input:hover,
+    .chatroom__input > input:focus {
+        border: 2px solid var(--color-blue);
+        background: var(--chatroom-chat-bg-hover);
+    }
+    .chatroom__input__icon {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        padding: 9px;
+        cursor: pointer;
+        background-color: var(--color-blue);
+        border-radius: 999px;
+    }
+    .chatroom__input__icon--attachment {
+        right: unset;
+        left: 15px;
+        background-color: transparent;
+    }
+    .chatroom__input__icon--attachment > svg {
+        fill: var(--text-color-default);
+    }
+    .me {
+        border-radius: 13px 20px 0px 13px;
+        background-color: var(--color-blue);
+        color: white;
+        align-self: flex-start;
+    }
+    .me .chatroom__content__item__name {
+        color: rgba(176, 198, 255, 0.7);
+    }
+    .other {
+        display: inline-block;
+        border-radius: 0px 13px 13px 13px;
+        background-color: var(--chatroom-chat-bg);
+        color: var(--text-color-default);
+        align-self: end;
+    }
+    .other .chatroom__content__item__name {
+        color: rgba(185, 185, 185, 1);
+    }
+    .list-enter-active,
+    .list-leave-active {
+        transition: all 0.2s ease;
+    }
+    .list-enter-from,
+    .list-leave-to {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    .chatroom_closed {
+        position: relative;
+        min-width: 0px !important;
+        flex: 0 0 0 !important;
+        transition: all 0.2s ease !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .chatroom_closed > * {
+        transform: translateX(40px);
+        transition: all 0.2s ease;
+    }
+</style>
